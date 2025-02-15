@@ -16,8 +16,14 @@ class Asteroid(CircleShape):
         pygame.draw.circle(screen, "white", (self.position.x, self.position.y), self.radius, 2)
 
     def update(self, dt):
-        self.position.x += self.velocity.x * dt
-        self.position.y += self.velocity.y * dt
+        self.position += self.velocity * dt
+       
+        if self.position.x < -self.radius or self.position.x > SCREEN_WIDTH + self.radius:
+            self.position.x %= SCREEN_WIDTH
+
+        if self.position.y < -self.radius or self.position.y > SCREEN_HEIGHT + self.radius:
+            self.position.y %= SCREEN_HEIGHT
+        
 
     def split(self):
         self.kill()
@@ -48,3 +54,5 @@ class Shot(CircleShape):
 
     def update(self, dt):
         self.position += self.velocity * dt
+
+      
