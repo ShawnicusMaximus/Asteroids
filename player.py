@@ -9,6 +9,7 @@ class Player(CircleShape):
 
         self.rotation = 0
         self.shoot_timer = 0
+        self.velocity = pygame.Vector2(0,0)
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -22,29 +23,53 @@ class Player(CircleShape):
         player_sprite = pygame.draw.polygon(screen, "white", self.triangle(),2)
 
     def rotate(self,dt):
-        self.dt = dt
-        self.rotation += (PLAYER_TURN_SPEED * dt)
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a]:
+            self.rotation += (PLAYER_TURN_SPEED* -dt)
+        if keys[pygame.K_d]:
+            self.rotation += (PLAYER_TURN_SPEED* dt)
+    
+    def screen_wrap(self):
+            self.position.x %= SCREEN_WIDTH
+            self.position.y %= SCREEN_HEIGHT
 
     def update(self, dt):
         self.shoot_timer -= dt
         keys = pygame.key.get_pressed()
-        ## PLAYER CONTROLS ##
-        if keys[pygame.K_a]:
-            self.rotate(-dt)
-        if keys[pygame.K_d]:
-            self.rotate(dt)
-
-        if keys[pygame.K_w]:
-            self.move(dt)
-        if keys[pygame.K_s]:
-            self.move(-dt)
+        self.move(dt)
+        self.rotate(dt)
+        
         
         if keys[pygame.K_SPACE]:
             self.shoot()
+        
+        ## Screen Wrap ##
+        self.position.x %= SCREEN_WIDTH
+        self.position.y %= SCREEN_HEIGHT
+        self.velocity *= FRICTION
+    
+    
 
     def move(self, dt):
+        keys = pygame.key.get_pressed()
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        self.position += forward * PLAYER_SPEED * dt
+        # Apply acceleration when moving forward
+        if keys[pygame.K_w]:
+            self.velocity += forward * ACCELERATION_RATE * dt
+        if keys[pygame.K_s]:
+            self.velocity -= forward * ACCELERATION_RATE * dt
+        
+        # Apply friction (slows down when no input)
+        self.velocity *= FRICTION
+
+        # Update position based on velocity
+        self.position += self.velocity * dt
+
+        if self.velocity.length() > PLAYER_SPEED:
+            self.velocity = self.velocity.normalize() * PLAYER_SPEED
+
+
+
 
     def shoot(self):
         if self.shoot_timer >0:
