@@ -1,8 +1,8 @@
 ## Planned Enhancements for Asteroids Game  
 
 ### Core Mechanics & Movement  
-- Add acceleration to the player movement  
-- Make the objects wrap around the screen instead of disappearing  
+COMPLETE- Add acceleration to the player movement  
+COMPLETE- Make the objects wrap around the screen instead of disappearing  
 
 ### Collision & Hitbox Improvements  
 - Make the ship have a triangular hitbox instead of a circular one  
