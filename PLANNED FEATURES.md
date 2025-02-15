@@ -5,7 +5,7 @@ COMPLETE- Add acceleration to the player movement
 COMPLETE- Make the objects wrap around the screen instead of disappearing  
 
 ### Collision & Hitbox Improvements  
-- Make the ship have a triangular hitbox instead of a circular one  
+COMPLETE- Make the ship have a triangular hitbox instead of a circular one  
 - Make the asteroids lumpy instead of perfectly round  
 
 ### Scoring & Life System  

@@ -39,7 +39,7 @@ def main():
 
         updatable.update(dt)
         for asteroid in asteroids:
-            if asteroid.collision(player):
+            if circle_triangle_collision(asteroid.position, asteroid.radius, *player.triangle()):
                 print("Game Over!")
                 sys.exit()
         
